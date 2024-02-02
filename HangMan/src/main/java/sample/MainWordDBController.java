@@ -28,4 +28,7 @@ public class MainWordDBController implements Initializable {
     public void showMainScene() {
         dbStage.setScene(mainScene);
     }
+
+    public void addWord() {
+    }
 }
