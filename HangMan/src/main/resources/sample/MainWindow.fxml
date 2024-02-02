@@ -11,8 +11,12 @@
 <?import javafx.scene.text.Text?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainWindowController">
-   <children>
+<?import java.net.URL?>
+<Pane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainWindowController">
+    <stylesheets>
+        <URL value="@styles.css" />
+    </stylesheets>
+    <children>
       <Text layoutX="15.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gra słowna Wisielec" textAlignment="CENTER" wrappingWidth="770.0">
          <font>
             <Font name="Times New Roman Italic" size="36.0" />
@@ -28,21 +32,11 @@
           <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button maxWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0" text="Zagraj w grę">
-               <font>
-                  <Font name="Times New Roman" size="24.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0" text="Baza Wyrazów" GridPane.rowIndex="1" onAction="#showDBScene">
-               <font>
-                  <Font name="Times New Roman" size="24.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0" text="Tabela Wyników" GridPane.rowIndex="2">
-               <font>
-                  <Font name="Times New Roman" size="24.0" />
-               </font>
-            </Button>
+             <Button maxWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0"
+                     text="Zagraj w grę" styleClass="mainMenuButton"/>
+             <Button mnemonicParsing="false" text="Baza Wyrazów" GridPane.rowIndex="1" onAction="#showDBScene"
+                     styleClass="mainMenuButton"/>
+             <Button mnemonicParsing="false" text="Tabela Wyników" GridPane.rowIndex="2" styleClass="mainMenuButton"/>
          </children>
       </GridPane>
       <ImageView fitHeight="300.0" fitWidth="200.0" layoutX="15.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
