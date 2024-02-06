@@ -26,7 +26,7 @@
             <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" styleClass="mainMenuButton" text="Dodaj wyraz" />
+            <Button mnemonicParsing="false" onAction="#addWord" styleClass="mainMenuButton" text="Dodaj wyraz" />
             <Button mnemonicParsing="false" styleClass="mainMenuButton" text="Dodaj z pliku" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" styleClass="mainMenuButton" text="Zobacz bazę" GridPane.rowIndex="2" />
             <Button mnemonicParsing="false" styleClass="mainMenuButton" text="Usuń wyrazy" GridPane.rowIndex="3" />
