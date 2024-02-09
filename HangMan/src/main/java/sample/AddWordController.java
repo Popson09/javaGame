@@ -9,6 +9,11 @@ import javafx.stage.Stage;
 
 public class AddWordController {
     private Stage stage;
+    private MainWordDBController mw;
+    void setMw(MainWordDBController mw)
+    {
+        this.mw=mw;
+    }
     void setStage(Stage stage)
     {
         this.stage=stage;
@@ -18,7 +23,9 @@ public class AddWordController {
 
     public void add() {
         String word=wordField.getText();
-        SQLCommands.insertWord(word);
+        SQLCommands.insertWord(word,mw);
         stage.close();
     }
+
+
 }

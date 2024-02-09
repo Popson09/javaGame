@@ -25,6 +25,7 @@ public class TableGenerator {
             } else {
                 System.out.println("Tabela już istnieje, nie trzeba tworzyć nowej.");
             }
+
         } catch (SQLException e) {
             System.out.println("Wystąpił błąd podczas tworzenia lub sprawdzania tabeli: " + e.getMessage());
         }
