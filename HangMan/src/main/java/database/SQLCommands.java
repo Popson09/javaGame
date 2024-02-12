@@ -1,5 +1,12 @@
 package database;
 
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import sample.MainWordDBController;
 
 import java.sql.*;
@@ -60,6 +67,47 @@ public class SQLCommands {
 
         } catch (SQLException e) {
             System.out.println("Wystąpił błąd podczas usuwania wyrazu z tabeli: " + e.getMessage());
+        }
+    }
+    public static void getTableData(String name,TableView<ObservableList<String>> tableView)
+    {
+        String command= "SELECT * FROM "+name;
+        try(Connection conn= DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
+        Statement statement= conn.createStatement())
+        {
+            ResultSet resultSet=statement.executeQuery(command);
+            int columns = resultSet.getMetaData().getColumnCount();
+            for(int i=1;i<=columns;i++)
+            {
+                //dodanie kolumn do tableview
+                TableColumn<ObservableList<String>,String> tableColumn= new TableColumn<>(resultSet.getMetaData().getColumnName(i));
+                int finalI = i-1;
+                //fabryka pozwalająca pobierać dane z komórek kolumny
+                tableColumn.setCellValueFactory(cellData -> {
+                    ObservableList<String> row = cellData.getValue();
+                    return new SimpleStringProperty(row.get(finalI));
+                });
+                //dodajemy kolumne do widoku
+                tableView.getColumns().add(tableColumn);
+            }
+            ObservableList<ObservableList<String>> data= FXCollections.observableArrayList();
+            while (resultSet.next())
+            {
+                ObservableList<String> row= FXCollections.observableArrayList();
+                for(int i=1;i<=columns;i++)
+                {
+                    //dodajemy do listy reprezentującej wiersz kolejne kolumny
+                    row.add(resultSet.getString(i));
+                }
+                data.add(row);
+            }
+            tableView.setItems(data);
+
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Wystąpił błąd podczas pobrania danych z tabeli: "+ e);
+
         }
     }
 }
