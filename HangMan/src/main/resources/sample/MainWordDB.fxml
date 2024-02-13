@@ -13,13 +13,13 @@
     </stylesheets>
     <children>
        <Button layoutX="5.0" layoutY="5.0" mnemonicParsing="false" onAction="#showMainScene" prefHeight="50.0" prefWidth="200.0" styleClass="backButton" text="Powrót" />
-      <Text fx:id="wordCount" layoutX="450.0" layoutY="38.0" styleClass="textBorder" wrappingWidth="345.0" />
+
       <Button layoutX="336.0" layoutY="5.0" mnemonicParsing="false" onAction="#deleteWord" styleClass="applyButton" text="Usuń wyraz" />
       <Button layoutX="486.0" layoutY="5.0" mnemonicParsing="false" styleClass="applyButton" text="Dodaj z pliku" />
       <Button layoutX="636.0" layoutY="5.0" mnemonicParsing="false" onAction="#addWord" styleClass="applyButton" text="Dodaj wyraz" />
       <ScrollPane layoutX="5.0" layoutY="65.0" prefHeight="530.0" prefWidth="790.0">
          <content>
-            <TableView prefHeight="530.0" prefWidth="790.0"  fx:id="tableView"/>
+            <TableView prefHeight="530.0" prefWidth="775.0"  fx:id="tableView"/>
          </content>
       </ScrollPane>
    </children>

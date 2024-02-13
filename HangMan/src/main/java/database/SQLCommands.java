@@ -19,10 +19,13 @@ public class SQLCommands {
              PreparedStatement statement = conn.prepareStatement(command)) {
             statement.setString(1,wordToAdd);
             statement.executeUpdate();
+            ResultSet generatedKeys =statement.getGeneratedKeys();
+            ObservableList<String>row= FXCollections.observableArrayList();
+            generatedKeys.next();
+            row.add(String.valueOf(generatedKeys.getLong(1)));
+            row.add(wordToAdd);
+            mw.setData(row);
             System.out.println("Słowo zostało dodane.");
-            mw.numberPlus1();
-
-
 
         } catch (SQLException e) {
             System.out.println("Wystąpił błąd podczas dodawania wyrazu do tabeli: " + e.getMessage());
@@ -56,20 +59,16 @@ public class SQLCommands {
             if(changedRecords>0)
             {
                 System.out.println("Słowo zostało usunięte.");
-                mw.numberMinus1();
+                mw.removeData(wordToDelete);
             }
             else
-            {
                 System.out.println("Nie znaleziono wyrazu");
-            }
-
-
 
         } catch (SQLException e) {
             System.out.println("Wystąpił błąd podczas usuwania wyrazu z tabeli: " + e.getMessage());
         }
     }
-    public static void getTableData(String name,TableView<ObservableList<String>> tableView)
+    public static void getTableData(String name,TableView<ObservableList<String>> tableView,ObservableList<ObservableList<String>> data)
     {
         String command= "SELECT * FROM "+name;
         try(Connection conn= DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
@@ -87,10 +86,12 @@ public class SQLCommands {
                     ObservableList<String> row = cellData.getValue();
                     return new SimpleStringProperty(row.get(finalI));
                 });
+                tableColumn.setStyle("-fx-font-size: 16px;\n" +
+                        "    -fx-font-family: \"Arial\";");
+
                 //dodajemy kolumne do widoku
                 tableView.getColumns().add(tableColumn);
             }
-            ObservableList<ObservableList<String>> data= FXCollections.observableArrayList();
             while (resultSet.next())
             {
                 ObservableList<String> row= FXCollections.observableArrayList();
@@ -101,7 +102,7 @@ public class SQLCommands {
                 }
                 data.add(row);
             }
-            tableView.setItems(data);
+
 
         }
         catch (SQLException e)
