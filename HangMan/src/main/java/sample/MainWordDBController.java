@@ -1,12 +1,8 @@
 package sample;
 
 import database.SQLCommands;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,16 +10,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class MainWordDBController implements Initializable {
@@ -31,7 +22,7 @@ public class MainWordDBController implements Initializable {
     private Scene mainScene;
     //int reprezentowany jako stan pozwalający na powiązanie z interfejsem
   //  private IntegerProperty number=new SimpleIntegerProperty(0) ;
-    private ObservableList<ObservableList<String>> data= FXCollections.observableArrayList();
+    private final ObservableList<ObservableList<String>> data= FXCollections.observableArrayList();
 
     @FXML
     private Text wordCount;
@@ -54,10 +45,15 @@ public class MainWordDBController implements Initializable {
             return id11.compareTo(id12);
         });
         tableView.getColumns().get(0).setSortType(TableColumn.SortType.DESCENDING);
-        tableView.getColumns().get(1).setPrefWidth(580);
+        tableView.getColumns().get(1).setPrefWidth(380);
         tableView.getColumns().get(1).setSortType(TableColumn.SortType.DESCENDING);
         tableView.setItems(data);
-
+        TableColumn<ObservableList<String>, Void> deleteColumn = new TableColumn<>("Delete");
+        deleteColumn.setPrefWidth(200);
+        int size=SQLCommands.getTableSize("wordsTable");
+        for(int i=0;i<size;i++)
+            deleteColumn.setCellFactory(DeleteButtonCell.forTableColumn());
+        tableView.getColumns().add(deleteColumn);
     }
 
     public void addWord() throws IOException {
@@ -70,16 +66,7 @@ public class MainWordDBController implements Initializable {
         addWordController.setMw(this);
         stage.show();
     }
-    public void deleteWord() throws IOException {
-        Stage stage=new Stage();
-        FXMLLoader loader= new FXMLLoader(getClass().getResource("deleteWord.fxml"));
-        Parent window= loader.load();
-        DeleteWordController deleteWordController= loader.getController();
-        stage.setScene(new Scene(window,320,52));
-        deleteWordController.setStage(stage);
-        deleteWordController.setMw(this);
-        stage.show();
-    }
+
     public void setmainScene(Scene scene) {
         this.mainScene = scene;
     }
@@ -96,7 +83,7 @@ public class MainWordDBController implements Initializable {
     {
         this.data.add(row);
     }
-    public void removeData(String id)
+   /* public void removeData(String id)
     {
         this.data.removeIf(elem ->
         {
@@ -104,5 +91,5 @@ public class MainWordDBController implements Initializable {
             return id.equals(idEl);
         });
 
-    }
+    }*/
 }
