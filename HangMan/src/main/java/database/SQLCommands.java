@@ -47,9 +47,8 @@ public class SQLCommands {
             System.out.println("Wystąpił błąd podczas wykonania polecenia: " + e.getMessage());
         }
         return res;
-
     }
-    public static void deleteWord(String wordToDelete, MainWordDBController mw)
+    public static void deleteWord(String wordToDelete)
     {
         String command= "Delete FROM wordsTable WHERE word= (?)";
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
@@ -59,7 +58,6 @@ public class SQLCommands {
             if(changedRecords>0)
             {
                 System.out.println("Słowo zostało usunięte.");
-                mw.removeData(wordToDelete);
             }
             else
                 System.out.println("Nie znaleziono wyrazu");
@@ -88,7 +86,6 @@ public class SQLCommands {
                 });
                 tableColumn.setStyle("-fx-font-size: 16px;\n" +
                         "    -fx-font-family: \"Arial\";");
-
                 //dodajemy kolumne do widoku
                 tableView.getColumns().add(tableColumn);
             }
@@ -102,13 +99,10 @@ public class SQLCommands {
                 }
                 data.add(row);
             }
-
-
         }
         catch (SQLException e)
         {
             System.out.println("Wystąpił błąd podczas pobrania danych z tabeli: "+ e);
-
         }
     }
 }
