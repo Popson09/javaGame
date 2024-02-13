@@ -49,7 +49,7 @@ public class Main extends Application {
 
         stage.setTitle("HangMan Game");
         //wrzucenie sceny do głównego okna
-        dbWindowController.setWordCount("game");
+
         stage.setScene(mainScene);
         stage.show();
     }
