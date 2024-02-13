@@ -37,6 +37,18 @@
     -fx-pref-height: 50px;
 }
 
+.applyButton
+{
+    -fx-font-size: 24px;
+    -fx-font-family: "Arial";
+    -fx-background-color: #90f6d7;
+    -fx-text-fill: #41506b;
+    -fx-border-color: #011936;
+    -fx-border-width: 2px;
+    -fx-text-align: center;
+
+}
+
 
 
 
