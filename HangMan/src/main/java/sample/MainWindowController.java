@@ -1,10 +1,7 @@
 package sample;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -12,8 +9,8 @@ import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
 
-    private Stage mainStage;
-    private Scene dbScene;
+    private Stage mainStage; //kontener reprezentujący okno aplikacji
+    private Scene dbScene; //scena wyswietlana w konterze
 
     public void setStage(Stage stage)
     {
@@ -30,5 +27,5 @@ public class MainWindowController implements Initializable {
     public void showDBScene()
     {
         mainStage.setScene(dbScene);
-    }
+    } //wrzucenie sceny do kontenera w celu wyswietlenia
 }
