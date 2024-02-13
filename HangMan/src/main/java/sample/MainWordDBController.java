@@ -3,6 +3,7 @@ package sample;
 import database.SQLCommands;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,9 +12,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -82,6 +84,35 @@ public class MainWordDBController implements Initializable {
     public void setData(ObservableList<String> row)
     {
         this.data.add(row);
+    }
+
+    public void addFromFile()  {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Wybierz plik z wyrazami do dodania");
+        File file = fileChooser.showOpenDialog(null);
+        try {
+            BufferedReader reader=new BufferedReader(new FileReader(file));
+            String line= reader.readLine();
+            while(line!=null)
+            {
+                //podzizał po znakach białych oraz przecinkach
+                String[] array =line.split("[,.;:\\s+]");
+                for (String s : array) {
+                    if (s.isEmpty())
+                        continue;
+
+                    SQLCommands.insertWord(s.trim(), this);
+                }
+                line= reader.readLine();
+            }
+            reader.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Nie znaleziono pliku: "+e);
+        } catch (IOException e) {
+            System.out.println("Nastąpił błąd podczas czytania danych z pliku: "+e);
+        }
+
     }
    /* public void removeData(String id)
     {

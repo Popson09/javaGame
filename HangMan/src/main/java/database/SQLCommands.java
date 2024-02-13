@@ -51,9 +51,11 @@ public class SQLCommands {
     public static void deleteWord(String wordToDelete)
     {
         String command= "Delete FROM wordsTable WHERE word= (?)";
+
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
             PreparedStatement statement = conn.prepareStatement(command)) {
             statement.setString(1,wordToDelete);
+
             int changedRecords= statement.executeUpdate();
             if(changedRecords>0)
             {
