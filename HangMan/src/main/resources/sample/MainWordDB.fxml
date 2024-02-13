@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="sample.MainWordDBController"
+            prefHeight="600.0" prefWidth="800.0">
+
+    <children>
+    <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Powrót" onAction="#showMainScene">
+        <font>
+            <Font name="Times New Roman" size="24.0" />
+        </font>
+    </Button>
+    <Text layoutX="15.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="witaj w nowym oknie" textAlignment="CENTER" wrappingWidth="770.0">
+        <font>
+            <Font name="Times New Roman Italic" size="36.0" />
+        </font>
+    </Text>
+    </children>
+
+</AnchorPane>
