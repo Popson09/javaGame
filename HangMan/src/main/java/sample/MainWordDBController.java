@@ -123,4 +123,8 @@ public class MainWordDBController implements Initializable {
         });
 
     }*/
+    void setWordCount(String s)
+    {
+        this.wordCount.setText(s);
+    }
 }

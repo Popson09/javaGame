@@ -23,7 +23,7 @@ public class TableGenerator {
                 statement.execute(createTableSQL);
                 System.out.println("Tabela została utworzona.");
             } else {
-                System.out.println("Tabela już istnieje, nie trzeba tworzyć nowej.");
+               System.out.println("Tabela już istnieje, nie trzeba tworzyć nowej.");
             }
 
         } catch (SQLException e) {
