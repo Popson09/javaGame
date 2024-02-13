@@ -66,4 +66,15 @@ public class MainWordDBController implements Initializable {
         if(number.get()>0)
             number.set(number.get() - 1);
     }
+
+    public void deleteWord() throws IOException {
+        Stage stage=new Stage();
+        FXMLLoader loader= new FXMLLoader(getClass().getResource("deleteWord.fxml"));
+        Parent window= loader.load();
+        DeleteWordController deleteWordController= loader.getController();
+        stage.setScene(new Scene(window,320,52));
+        deleteWordController.setStage(stage);
+        deleteWordController.setMw(this);
+        stage.show();
+    }
 }
