@@ -14,7 +14,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.BasicGameController">
    <children>
-      <HBox fx:id="hBox" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="780.0" />
+      <HBox fx:id="box" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="780.0" />
       <HBox layoutX="20.0" layoutY="500.0" prefHeight="90.0" prefWidth="760.0">
          <children>
             <ImageView  fx:id="hp1" fitHeight="125.0" fitWidth="85.0" layoutX="503.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
@@ -98,7 +98,7 @@
             <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Text fx:id="used" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="defaultText" text="A,B" textAlignment="CENTER" wrappingWidth="300.0" GridPane.rowIndex="1" />
+            <Text fx:id="used" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="defaultText" text="litery" textAlignment="CENTER" wrappingWidth="300.0" GridPane.rowIndex="1" />
             <Text layoutX="10.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="defaultText" text="Użyte litery" textAlignment="CENTER" wrappingWidth="300.0" />
          </children>
       </GridPane>
