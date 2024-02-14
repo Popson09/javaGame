@@ -33,7 +33,7 @@
         </rowConstraints>
          <children>
              <Button maxWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0"
-                     text="Zagraj w grę" styleClass="mainMenuButton"/>
+                     text="Zagraj w grę"  onAction="#showGameScene" styleClass="mainMenuButton"/>
              <Button mnemonicParsing="false" text="Baza Wyrazów" GridPane.rowIndex="1" onAction="#showDBScene"
                      styleClass="mainMenuButton"/>
              <Button mnemonicParsing="false" text="Tabela Wyników" GridPane.rowIndex="2" styleClass="mainMenuButton"/>

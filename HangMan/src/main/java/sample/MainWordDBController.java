@@ -22,6 +22,9 @@ import java.util.ResourceBundle;
 public class MainWordDBController implements Initializable {
     private Stage dbStage;
     private Scene mainScene;
+
+
+
     //int reprezentowany jako stan pozwalający na powiązanie z interfejsem
   //  private IntegerProperty number=new SimpleIntegerProperty(0) ;
     private final ObservableList<ObservableList<String>> data= FXCollections.observableArrayList();
@@ -39,7 +42,7 @@ public class MainWordDBController implements Initializable {
        // number.set(SQLCommands.getTableSize("wordsTable"));
         //ustawienie wartosci w polu text, binding sledzi wartosc number i aktualizuje wyswieytlany napis w zależnosci od wartosci zmiennej
         //wordCount.textProperty().bind(Bindings.concat("Liczba wyrazów w bazie: ").concat(number.asString()));
-        SQLCommands.getTableData("wordsTable",tableView,data);
+        SQLCommands.createTableViewData("wordsTable",tableView,data);
         tableView.getColumns().get(0).setPrefWidth(200);
         tableView.getColumns().get(0).setComparator(( id1,id2 )->{
             Integer id11 = Integer.parseInt((String) id1);
@@ -113,6 +116,9 @@ public class MainWordDBController implements Initializable {
             System.out.println("Nastąpił błąd podczas czytania danych z pliku: "+e);
         }
 
+    }
+    public ObservableList<ObservableList<String>> getData() {
+        return data;
     }
    /* public void removeData(String id)
     {

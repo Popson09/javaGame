@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import sample.MainWordDBController;
 
 import java.sql.*;
+import java.util.List;
 
 public class SQLCommands {
     public static void insertWord(String wordToAdd, MainWordDBController mw)
@@ -68,7 +69,7 @@ public class SQLCommands {
             System.out.println("Wystąpił błąd podczas usuwania wyrazu z tabeli: " + e.getMessage());
         }
     }
-    public static void getTableData(String name,TableView<ObservableList<String>> tableView,ObservableList<ObservableList<String>> data)
+    public static void createTableViewData(String name,TableView<ObservableList<String>> tableView,ObservableList<ObservableList<String>> data)
     {
         String command= "SELECT * FROM "+name;
         try(Connection conn= DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");

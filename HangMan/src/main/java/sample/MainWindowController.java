@@ -12,6 +12,8 @@ public class MainWindowController implements Initializable {
     private Stage mainStage; //kontener reprezentujący okno aplikacji
     private Scene dbScene; //scena wyswietlana w konterze
 
+    private Scene gameScene;
+
     public void setStage(Stage stage)
     {
         this.mainStage=stage;
@@ -24,6 +26,15 @@ public class MainWindowController implements Initializable {
     public void setDbScene(Scene scene) {
         this.dbScene = scene;
     }
+
+    public void setGameScene(Scene gameScene) {
+        this.gameScene = gameScene;
+    }
+    public void showGameScene()
+    {
+        mainStage.setScene(gameScene);
+    }
+
     public void showDBScene()
     {
         mainStage.setScene(dbScene);

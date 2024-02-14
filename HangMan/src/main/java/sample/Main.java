@@ -41,10 +41,17 @@ public class Main extends Application {
         MainWordDBController dbWindowController = dbWindowLoader.getController();
         dbWindowController.setStage(stage);
 
+        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("basicGame.fxml"));
+        Parent gameWindow = gameLoader.load();
+        BasicGameController basicGameController = gameLoader.getController();
+        basicGameController.setStage(stage);
+
         Scene mainScene=new Scene(mainWindow, 800, 600);
         //podanie do kontrolera sceny w celu przełączania jej w oknie na podstawie działań użytkownika
         mainWindowController.setDbScene(new Scene(dbWindow, 800, 600)); // wrzucenie do kontenera bd sceny głównego okna
+        mainWindowController.setGameScene(new Scene(gameWindow, 800, 600));
         dbWindowController.setmainScene(mainScene);
+        basicGameController.setScene(mainScene);
 
 
         stage.setTitle("HangMan Game");
