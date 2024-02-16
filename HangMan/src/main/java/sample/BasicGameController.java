@@ -100,12 +100,7 @@ public class BasicGameController {
         char letter= letterToCheck.getText().toLowerCase().charAt(0);
         letterToCheck.clear();
         boolean find=false;
-        if(!isKnown.contains(false))
-        {
-            message.setText("WYGRAŁES");
-            button.setDisable(true);
 
-        }
         for(int i=0;i<wordLen;i++)
         {
 
@@ -121,6 +116,12 @@ public class BasicGameController {
                   find=true;
                }
             }
+        }
+        if(!isKnown.contains(false))
+        {
+            message.setText("WYGRAŁES");
+            button.setDisable(true);
+
         }
 
         if(!find)
