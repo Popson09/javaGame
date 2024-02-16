@@ -38,6 +38,7 @@ public class DeleteButtonCell <S> extends TableCell<S, Void> {
     }
 
     // Fabryka dla kolumny z przyciskiem usuwania tworzy instancje przycisku dla każdego rekordu
+    //dla kolumny typu <s,Void> tworzona jest komórka <S,Void> poprzez callback, które mapuje jedno na drugie
     public static <S> Callback<TableColumn<S, Void>, TableCell<S, Void>> forTableColumn() {
         return param -> new DeleteButtonCell<>();
     }

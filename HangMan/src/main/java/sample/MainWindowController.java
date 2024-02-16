@@ -13,10 +13,15 @@ public class MainWindowController implements Initializable {
     private Scene dbScene; //scena wyswietlana w konterze
 
     private Scene gameScene;
+    private BasicGameController basicGameController;
 
     public void setStage(Stage stage)
     {
         this.mainStage=stage;
+    }
+
+    public void setBasicGameController(BasicGameController basicGameController) {
+        this.basicGameController = basicGameController;
     }
 
     @Override
@@ -33,6 +38,7 @@ public class MainWindowController implements Initializable {
     public void showGameScene()
     {
         mainStage.setScene(gameScene);
+        basicGameController.startGame();
     }
 
     public void showDBScene()

@@ -1,6 +1,7 @@
 package sample;
 
 import database.SQLCommands;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,30 +23,26 @@ import java.util.ResourceBundle;
 public class MainWordDBController implements Initializable {
     private Stage dbStage;
     private Scene mainScene;
-
-
-
-    //int reprezentowany jako stan pozwalający na powiązanie z interfejsem
-  //  private IntegerProperty number=new SimpleIntegerProperty(0) ;
-    private final ObservableList<String> data= FXCollections.observableArrayList();
-
-    @FXML
-    private Text wordCount;
+    private ObservableList<String> data= FXCollections.observableArrayList();
     @FXML
     private TableView<String> tableView;
 
-
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-       // number.set(SQLCommands.getTableSize("wordsTable"));
-        //ustawienie wartosci w polu text, binding sledzi wartosc number i aktualizuje wyswieytlany napis w zależnosci od wartosci zmiennej
-        //wordCount.textProperty().bind(Bindings.concat("Liczba wyrazów w bazie: ").concat(number.asString()));
+
         int size=SQLCommands.getTableSize("wordsTable");
-        SQLCommands.createWordTableView("wordsTable",tableView,data);
-        tableView.getColumns().get(0).setPrefWidth(580);
-        tableView.getColumns().get(0).setSortType(TableColumn.SortType.DESCENDING);
+        data= SQLCommands.getWordList();
+        TableColumn<String,String> wordColumn= new TableColumn<>("Word");
+        wordColumn.setPrefWidth(580);
+        //ustawienie sortowania alfabetycznego kolumny wyrazów
+        wordColumn.setSortType(TableColumn.SortType.DESCENDING);
+        //ustawienie wyswietlanego typu dla komórki tabeli
+        wordColumn.setCellValueFactory(cellData -> {
+            String value = cellData.getValue();
+            return new SimpleStringProperty(value);
+        });
+        wordColumn.getStyleClass().add("defaultText");
+        tableView.getColumns().add(wordColumn);
         createDeleteColumn(size);
         tableView.setItems(data);
     }

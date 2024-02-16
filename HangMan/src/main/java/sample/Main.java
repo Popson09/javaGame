@@ -52,6 +52,7 @@ public class Main extends Application {
         mainWindowController.setGameScene(new Scene(gameWindow, 800, 600));
         dbWindowController.setmainScene(mainScene);
         basicGameController.setScene(mainScene);
+        mainWindowController.setBasicGameController(basicGameController);
 
 
         stage.setTitle("HangMan Game");
