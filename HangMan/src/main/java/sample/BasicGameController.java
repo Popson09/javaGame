@@ -1,5 +1,6 @@
 package sample;
 
+import database.SQLCommands;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -15,6 +16,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class BasicGameController implements Initializable {
@@ -22,9 +24,12 @@ public class BasicGameController implements Initializable {
     private HBox box;
     private Stage mainStage;
     private Scene mainScene;
+    private int wordLen;
+    private String word;
 
 
-    private List<ImageView> letterList=new ArrayList<>();
+
+    private final List<ImageView> letterList=new ArrayList<>();
 
 
 
@@ -36,14 +41,14 @@ public class BasicGameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        InputStream stream = null;
-        try {
-            stream = new FileInputStream("HangMan/src/main/resources/images/blankField.png");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        Image image = new Image(stream);
-        for(int i=0;i<10;i++)
+        List<String> list= SQLCommands.getWordList();
+        Random random=new Random();
+        int number=random.nextInt(list.size());
+        word=list.get(number);
+        wordLen=word.length();
+
+        Image image =  new Image("file:HangMan/src/main/resources/images/blankField.png");
+        for(int i=0;i<wordLen;i++)
         {
             ImageView imageView=new ImageView();
             imageView.setFitHeight(100);
@@ -52,6 +57,7 @@ public class BasicGameController implements Initializable {
             letterList.add(imageView);
             box.getChildren().add(imageView);
         }
+
 
     }
     public void setScene(Scene scene) {

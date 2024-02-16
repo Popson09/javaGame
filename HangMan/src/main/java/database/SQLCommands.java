@@ -8,8 +8,29 @@ import sample.DeleteButtonCell;
 import sample.MainWordDBController;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SQLCommands {
+    public static List<String> getWordList()
+    {
+        List<String> list= new ArrayList<>();
+        String command = "SELECT word FROM wordsTable";
+        try(Connection conn = DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
+            Statement statement= conn.createStatement()) {
+            ResultSet resultSet=statement.executeQuery(command);
+            while (resultSet.next())
+            {
+
+                list.add(resultSet.getString(1));
+            }
+
+        }
+        catch (SQLException e) {
+            System.out.println("Wystąpił błąd podczas pobierania listy: " + e.getMessage());
+        }
+        return list;
+    }
     public static void insertWord(String wordToAdd, MainWordDBController mw)
     {
         String command = "INSERT INTO wordsTable (word) VALUES (?)";
