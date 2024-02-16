@@ -20,7 +20,7 @@ public class DeleteButtonCell <S> extends TableCell<S, Void> {
             int index = getIndex();
             // Pobierz obiekt z danymi z tego wiersza
             S item = getTableView().getItems().get(index);
-            SQLCommands.deleteWord(item.toString().split("[\\[\\],\\s]")[3]);
+            SQLCommands.deleteWord(item.toString());
             getTableView().getItems().remove(index);
         });
     }

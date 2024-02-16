@@ -1,16 +1,13 @@
 package database;
 
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import sample.DeleteButtonCell;
 import sample.MainWordDBController;
 
 import java.sql.*;
-import java.util.List;
 
 public class SQLCommands {
     public static void insertWord(String wordToAdd, MainWordDBController mw)
@@ -20,12 +17,19 @@ public class SQLCommands {
              PreparedStatement statement = conn.prepareStatement(command)) {
             statement.setString(1,wordToAdd);
             statement.executeUpdate();
-            ResultSet generatedKeys =statement.getGeneratedKeys();
-            ObservableList<String>row= FXCollections.observableArrayList();
-            generatedKeys.next();
-            row.add(String.valueOf(generatedKeys.getLong(1)));
-            row.add(wordToAdd);
-            mw.setData(row);
+            int size= mw.getDataSize();
+            mw.setData(wordToAdd);
+            if(size==0)
+            {
+                TableColumn<String,Void> deleteColumn=new TableColumn<>("Delete");
+                deleteColumn.setCellFactory(DeleteButtonCell.forTableColumn());
+                TableView<String> tableView=mw.getTableView();
+                tableView.getColumns().remove(1);
+                deleteColumn.setPrefWidth(200);
+                tableView.getColumns().add(deleteColumn);
+                mw.setTableView(tableView);
+
+            }
             System.out.println("Słowo zostało dodane.");
 
         } catch (SQLException e) {
@@ -54,7 +58,7 @@ public class SQLCommands {
         String command= "Delete FROM wordsTable WHERE word= (?)";
 
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
-            PreparedStatement statement = conn.prepareStatement(command)) {
+             PreparedStatement statement = conn.prepareStatement(command)) {
             statement.setString(1,wordToDelete);
 
             int changedRecords= statement.executeUpdate();
@@ -69,38 +73,30 @@ public class SQLCommands {
             System.out.println("Wystąpił błąd podczas usuwania wyrazu z tabeli: " + e.getMessage());
         }
     }
-    public static void createTableViewData(String name,TableView<ObservableList<String>> tableView,ObservableList<ObservableList<String>> data)
+    public static void createWordTableView(String name,TableView<String> tableView,ObservableList<String> data)
     {
+        data.clear();
         String command= "SELECT * FROM "+name;
         try(Connection conn= DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
         Statement statement= conn.createStatement())
         {
             ResultSet resultSet=statement.executeQuery(command);
             int columns = resultSet.getMetaData().getColumnCount();
-            for(int i=1;i<=columns;i++)
-            {
-                //dodanie kolumn do tableview
-                TableColumn<ObservableList<String>,String> tableColumn= new TableColumn<>(resultSet.getMetaData().getColumnName(i));
-                int finalI = i-1;
-                //fabryka pozwalająca pobierać dane z komórek kolumny
-                tableColumn.setCellValueFactory(cellData -> {
-                    ObservableList<String> row = cellData.getValue();
-                    return new SimpleStringProperty(row.get(finalI));
-                });
-                tableColumn.setStyle("-fx-font-size: 16px;\n" +
-                        "    -fx-font-family: \"Arial\";");
-                //dodajemy kolumne do widoku
-                tableView.getColumns().add(tableColumn);
-            }
+
+            TableColumn<String,String> tableColumn= new TableColumn<>(resultSet.getMetaData().getColumnName(2));
+            //fabryka pozwalająca pobierać dane z komórek kolumny
+            tableColumn.setCellValueFactory(cellData -> {
+                String row = cellData.getValue();
+                return new SimpleStringProperty(row);
+            });
+            tableColumn.setStyle("-fx-font-size: 16px;\n" +
+                    "    -fx-font-family: \"Arial\";");
+            //dodajemy kolumne do widoku
+            tableView.getColumns().add(tableColumn);
+
             while (resultSet.next())
             {
-                ObservableList<String> row= FXCollections.observableArrayList();
-                for(int i=1;i<=columns;i++)
-                {
-                    //dodajemy do listy reprezentującej wiersz kolejne kolumny
-                    row.add(resultSet.getString(i));
-                }
-                data.add(row);
+                data.add(resultSet.getString("word"));
             }
         }
         catch (SQLException e)
