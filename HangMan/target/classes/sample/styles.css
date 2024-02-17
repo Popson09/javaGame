@@ -70,6 +70,11 @@
     -fx-font-size: 16px;
     -fx-text-fill:  #011936;
 }
+.frame
+{
+    -fx-border-color: #011936;
+    -fx-border-width: 2px;
+}
 
 
 
