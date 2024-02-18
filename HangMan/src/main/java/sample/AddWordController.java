@@ -20,8 +20,9 @@ public class AddWordController {
     private TextField wordField;
 
     public void add() {
-        String word=wordField.getText();
-        SQLCommands.insertWord(word,mw);
+        String[] word=wordField.getText().split(";");
+
+        SQLCommands.insertWord(word[0],word[1],mw);
         stage.close();
     }
 

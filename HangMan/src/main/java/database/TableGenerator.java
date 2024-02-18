@@ -10,7 +10,7 @@ public class TableGenerator {
         // SQL zapytanie do utworzenia tabeli
         String createTableSQL = "CREATE TABLE wordsTable (\n"
                 + "    id INTEGER PRIMARY KEY,\n"
-                + "    word TEXT NOT NULL"
+                + "    word TEXT NOT NULL, category TEXT NOT NULL "
                 + ");";
 
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
@@ -28,6 +28,19 @@ public class TableGenerator {
 
         } catch (SQLException e) {
             System.out.println("Wystąpił błąd podczas tworzenia lub sprawdzania tabeli: " + e.getMessage());
+        }
+    }
+    public static  void addCategoryColumn()
+    {
+        String command= "ALTER TABLE wordsTable ADD COLUMN category TEXT NOT NULL DEFAULT 'category'";
+        try(Connection conn= DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
+        Statement statement= conn.createStatement())
+        {
+            statement.executeUpdate(command);
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Wystąpił błąd w trakcie dodawania kolumny: "+e);
         }
     }
 }

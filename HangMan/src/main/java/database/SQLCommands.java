@@ -13,36 +13,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SQLCommands {
-    public static ObservableList<String> getWordList()
+    public static ObservableList<ObservableList<String>> getWordList()
     {
-        ObservableList<String> list= FXCollections.observableArrayList();
-        String command = "SELECT word FROM wordsTable";
+        ObservableList<ObservableList<String>> list= FXCollections.observableArrayList();
+        String command = "SELECT word, category FROM wordsTable";
         try(Connection conn = DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
             Statement statement= conn.createStatement()) {
             ResultSet resultSet=statement.executeQuery(command);
             while (resultSet.next())
-                list.add(resultSet.getString(1));
+            {
+                ObservableList<String> row= FXCollections.observableArrayList();
+                row.add(resultSet.getString("word"));
+                row.add(resultSet.getString("category"));
+                list.add(row);
+            }
+
         }
         catch (SQLException e) {
             System.out.println("Wystąpił błąd podczas pobierania listy: " + e.getMessage());
         }
         return list;
     }
-    public static void insertWord(String wordToAdd, MainWordDBController mw)
+    public static void insertWord(String wordToAdd,String categoryToAdd, MainWordDBController mw)
     {
-        String command = "INSERT INTO wordsTable (word) VALUES (?)";
+        String command = "INSERT INTO wordsTable (word,category) VALUES (?,?)";
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
              PreparedStatement statement = conn.prepareStatement(command)) {
             statement.setString(1,wordToAdd);
+            statement.setString(2,categoryToAdd);
             statement.executeUpdate();
             int size= mw.getDataSize();
-            mw.setData(wordToAdd);
+            ObservableList<String >row=FXCollections.observableArrayList(wordToAdd,categoryToAdd);
+            mw.setData(row);
             if(size==0)
             {
-                TableColumn<String,Void> deleteColumn=new TableColumn<>("Delete");
+                TableColumn<ObservableList<String>,Void> deleteColumn=new TableColumn<>("Delete");
                 deleteColumn.setCellFactory(DeleteButtonCell.forTableColumn());
-                TableView<String> tableView=mw.getTableView();
-                tableView.getColumns().remove(1);
+                TableView<ObservableList<String>> tableView=mw.getTableView();
+                tableView.getColumns().remove(2);
                 deleteColumn.setPrefWidth(200);
                 tableView.getColumns().add(deleteColumn);
                 mw.setTableView(tableView);
@@ -84,6 +92,18 @@ public class SQLCommands {
 
         } catch (SQLException e) {
             System.out.println("Wystąpił błąd podczas usuwania wyrazu z tabeli: " + e.getMessage());
+        }
+    }
+    public static void clearTable(String name)
+    {
+        try(Connection conn=DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
+        Statement statement= conn.createStatement())
+        {
+            statement.executeUpdate("DELETE FROM "+name);
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Wystąpił błąd podczas czyszczenia tabeli "+name+" : "+e);
         }
     }
 }

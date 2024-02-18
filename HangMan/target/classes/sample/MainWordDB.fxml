@@ -5,18 +5,16 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Text?>
 
 <Pane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainWordDBController">
     <stylesheets>
         <URL value="@styles.css" />
     </stylesheets>
     <children>
-       <Button layoutX="5.0" layoutY="5.0" mnemonicParsing="false" onAction="#showMainScene" prefHeight="50.0" prefWidth="200.0" styleClass="backButton" text="Powrót" />
-
-
-      <Button layoutX="486.0" layoutY="5.0" mnemonicParsing="false" onAction="#addFromFile" styleClass="applyButton" text="Dodaj z pliku" />
-      <Button layoutX="636.0" layoutY="5.0" mnemonicParsing="false" onAction="#addWord" styleClass="applyButton" text="Dodaj wyraz" />
+        <Button layoutX="5.0" layoutY="5.0" mnemonicParsing="false" onAction="#showMainScene" prefHeight="50.0" prefWidth="200.0" styleClass="backButton" text="Powrót" />
+        <Button layoutX="336.0" layoutY="5.0" mnemonicParsing="false" onAction="#clearData" styleClass="applyButton" text="Wyczysć bazę" />
+        <Button layoutX="486.0" layoutY="5.0" mnemonicParsing="false" onAction="#addFromFile" styleClass="applyButton" text="Dodaj z pliku" />
+        <Button layoutX="636.0" layoutY="5.0" mnemonicParsing="false" onAction="#addWord" styleClass="applyButton" text="Dodaj wyraz" />
       <ScrollPane layoutX="5.0" layoutY="65.0" prefHeight="530.0" prefWidth="790.0">
          <content>
             <TableView prefHeight="530.0" prefWidth="775.0"  fx:id="tableView"/>

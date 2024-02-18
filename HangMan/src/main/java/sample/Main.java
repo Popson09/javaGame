@@ -19,6 +19,7 @@ public class Main extends Application {
             if (conn != null) {
                 System.out.println("Połączono z bazą danych SQLite.");
                 TableGenerator.createWordTable();
+               // TableGenerator.addCategoryColumn();
 
 
 

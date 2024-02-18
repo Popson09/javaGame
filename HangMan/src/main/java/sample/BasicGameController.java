@@ -34,12 +34,16 @@ public class BasicGameController {
     private TextField letterToCheck;
     @FXML
     private Text used;
+    @FXML
+    private Text categoryText;
+
     private Stage mainStage;
     private Scene mainScene;
     private final List<Boolean> isKnown=new ArrayList<>();
     private char[] word;
     private int lives;
     private int wordLen;
+    private  String category;
     private final SimpleIntegerProperty intScore= new SimpleIntegerProperty();
 
     public void setStage(Stage stage)
@@ -55,6 +59,7 @@ public class BasicGameController {
         button.setDisable(false);
         used.setText("");
         message.setText("");
+        categoryText.setText("");
         combo=1;
         intScore.set(0);
         score.textProperty().bind(Bindings.concat("Wynik Poziomu: ").concat(intScore.asString()));
@@ -68,10 +73,11 @@ public class BasicGameController {
         int size=SQLCommands.getTableSize("wordsTable");
         if(size!=0)
         {
-            ObservableList<String> list= SQLCommands.getWordList();
+            ObservableList<ObservableList<String>> list= SQLCommands.getWordList();
             Random random=new Random();
             int number=random.nextInt(list.size());
-            String s=list.get(number).toLowerCase();
+            String s=list.get(number).get(0).toLowerCase();
+            categoryText.setText("Kategoria: "+list.get(number).get(1));
             word=s.toCharArray();
             wordLen = s.length();
 
