@@ -1,5 +1,6 @@
 package sample;
 
+import database.SQLCommands;
 import database.SQLiteConnector;
 import database.TableGenerator;
 import javafx.application.Application;
@@ -19,7 +20,10 @@ public class Main extends Application {
             if (conn != null) {
                 System.out.println("Połączono z bazą danych SQLite.");
                 TableGenerator.createWordTable();
+               // TableGenerator.dropTable("accountTable");
+                TableGenerator.createAccountTable();
                // TableGenerator.addCategoryColumn();
+                //SQLCommands.addAccount();
 
 
 
@@ -46,12 +50,19 @@ public class Main extends Application {
         BasicGameController basicGameController = gameLoader.getController();
         basicGameController.setStage(stage);
 
+        FXMLLoader registerLoader = new FXMLLoader(getClass().getResource("registerWindow.fxml"));
+        Parent registerWindow = registerLoader.load();
+        RegisterWindowController registerWindowController = registerLoader.getController();
+        registerWindowController.setMainStage(stage);
+
         Scene mainScene=new Scene(mainWindow, 800, 600);
         //podanie do kontrolera sceny w celu przełączania jej w oknie na podstawie działań użytkownika
         mainWindowController.setDbScene(new Scene(dbWindow, 800, 600)); // wrzucenie do kontenera bd sceny głównego okna
         mainWindowController.setGameScene(new Scene(gameWindow, 800, 600));
+        mainWindowController.setRegisterScene(new Scene(registerWindow, 800, 600));
         dbWindowController.setmainScene(mainScene);
         basicGameController.setScene(mainScene);
+        registerWindowController.setMainScene(mainScene);
         mainWindowController.setBasicGameController(basicGameController);
 
 

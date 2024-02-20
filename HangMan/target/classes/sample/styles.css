@@ -58,9 +58,10 @@
 }
 .alertText
 {
-    -fx-font-size: 30px;
+    -fx-font-size: 36px;
     -fx-font-family: "Times New Roman";
-    -fx-text-fill: brown;
+    -fx-text-fill: #41506b;
+
 }
 .deleteButton
 {

@@ -106,4 +106,18 @@ public class SQLCommands {
             System.out.println("Wystąpił błąd podczas czyszczenia tabeli "+name+" : "+e);
         }
     }
+    public static void addAccount()
+    {
+        try(Connection conn=DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
+            PreparedStatement statement= conn.prepareStatement("INSERT INTO accountTable (nick,password) VALUES ( ?,?)"))
+        {
+            statement.setString(1,"admin");
+            statement.setString(2,"admin123");
+            statement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Wystąpił błąd podczas wstawiania konta:"  +e);
+        }
+    }
 }
