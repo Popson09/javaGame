@@ -14,8 +14,7 @@ public class MainWindowController implements Initializable {
 
     private Stage mainStage; //kontener reprezentujący okno aplikacji
     private Scene dbScene; //scena wyswietlana w konterze
-
-
+    private Scene loginScene;
     private Scene registerScene;
 
     private Scene gameScene;
@@ -51,6 +50,10 @@ public class MainWindowController implements Initializable {
         this.registerScene = registerScene;
     }
 
+    public void setLoginScene(Scene loginScene) {
+        this.loginScene = loginScene;
+    }
+
     public void showGameScene()
     {
         mainStage.setScene(gameScene);
@@ -64,9 +67,15 @@ public class MainWindowController implements Initializable {
     } //wrzucenie sceny do kontenera w celu wyswietlenia
 
     public void logIn() {
+        mainStage.setScene(loginScene);
     }
 
     public void register() {
         mainStage.setScene(registerScene);
+    }
+
+    public void setNick(String s)
+    {
+        nick.set(s);
     }
 }

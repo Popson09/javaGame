@@ -10,6 +10,7 @@ import sample.MainWordDBController;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class SQLCommands {
@@ -106,18 +107,39 @@ public class SQLCommands {
             System.out.println("Wystąpił błąd podczas czyszczenia tabeli "+name+" : "+e);
         }
     }
-    public static void addAccount()
+    public static void addAccount(String nick,String password)
     {
         try(Connection conn=DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
             PreparedStatement statement= conn.prepareStatement("INSERT INTO accountTable (nick,password) VALUES ( ?,?)"))
         {
-            statement.setString(1,"admin");
-            statement.setString(2,"admin123");
+            statement.setString(1,nick);
+            statement.setString(2, Base64.getEncoder().encodeToString(password.getBytes()));
             statement.executeUpdate();
+            System.out.println("Dane wstawiono poprawnie");
         }
         catch (SQLException e)
         {
             System.out.println("Wystąpił błąd podczas wstawiania konta:"  +e);
+        }
+    }
+    public static String getAccount(String nick,String password)
+    {
+        try(Connection conn=DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
+            PreparedStatement statement= conn.prepareStatement("SELECT * FROM accountTable WHERE nick=(?) AND password=(?)"))
+        {
+            statement.setString(1,nick);
+            statement.setString(2, Base64.getEncoder().encodeToString(password.getBytes()));
+            ResultSet resultSet=statement.executeQuery();
+            if(resultSet.next())
+                return resultSet.getString("nick");
+            else
+                return "";
+
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Wystąpił błąd podczas wstawiania konta:"  +e);
+            return "";
         }
     }
 }

@@ -51,18 +51,26 @@ public class Main extends Application {
         basicGameController.setStage(stage);
 
         FXMLLoader registerLoader = new FXMLLoader(getClass().getResource("registerWindow.fxml"));
-        Parent registerWindow = registerLoader.load();
+        Parent registerWindow= registerLoader.load();
         RegisterWindowController registerWindowController = registerLoader.getController();
         registerWindowController.setMainStage(stage);
+
+        FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("LoginWindow.fxml"));
+        Parent loginWindow =loginLoader.load();
+        LoginWindowController loginWindowController= loginLoader.getController();
+        loginWindowController.setMainStage(stage);
 
         Scene mainScene=new Scene(mainWindow, 800, 600);
         //podanie do kontrolera sceny w celu przełączania jej w oknie na podstawie działań użytkownika
         mainWindowController.setDbScene(new Scene(dbWindow, 800, 600)); // wrzucenie do kontenera bd sceny głównego okna
         mainWindowController.setGameScene(new Scene(gameWindow, 800, 600));
         mainWindowController.setRegisterScene(new Scene(registerWindow, 800, 600));
+        mainWindowController.setLoginScene(new Scene(loginWindow,800,600));
         dbWindowController.setmainScene(mainScene);
         basicGameController.setScene(mainScene);
         registerWindowController.setMainScene(mainScene);
+        loginWindowController.setMainScene(mainScene);
+        loginWindowController.setMw(mainWindowController);
         mainWindowController.setBasicGameController(basicGameController);
 
 
