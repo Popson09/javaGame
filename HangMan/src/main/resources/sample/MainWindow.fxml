@@ -35,7 +35,7 @@
           <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-             <Button maxWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0"
+             <Button  fx:id="buttonGame" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0"
                      text="Zagraj w grę"  onAction="#showGameScene" styleClass="mainMenuButton"/>
              <Button mnemonicParsing="false" text="Baza Wyrazów" GridPane.rowIndex="1" onAction="#showDBScene"
                      styleClass="mainMenuButton"/>

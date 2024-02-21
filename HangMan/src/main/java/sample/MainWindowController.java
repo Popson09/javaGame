@@ -5,12 +5,15 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
+    @FXML
+    private Button buttonGame;
 
     private Stage mainStage; //kontener reprezentujący okno aplikacji
     private Scene dbScene; //scena wyswietlana w konterze
@@ -34,6 +37,7 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        buttonGame.setDisable(true);
         this.nick.set(" ");
         helloMessage.textProperty().bind(Bindings.concat("Zalogowany jako: ").concat(nick));
 
@@ -57,7 +61,7 @@ public class MainWindowController implements Initializable {
     public void showGameScene()
     {
         mainStage.setScene(gameScene);
-        basicGameController.setNick(nick.getValue());
+        basicGameController.setNick(nick.get());
         basicGameController.startGame();
 
     }
@@ -69,7 +73,10 @@ public class MainWindowController implements Initializable {
     } //wrzucenie sceny do kontenera w celu wyswietlenia
 
     public void logIn() {
+
         mainStage.setScene(loginScene);
+        if (!nick.get().isEmpty())
+            buttonGame.setDisable(false);
     }
 
     public void register() {
