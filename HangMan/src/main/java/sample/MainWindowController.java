@@ -57,7 +57,9 @@ public class MainWindowController implements Initializable {
     public void showGameScene()
     {
         mainStage.setScene(gameScene);
+        basicGameController.setNick(nick.getValue());
         basicGameController.startGame();
+
     }
 
 

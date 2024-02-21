@@ -22,6 +22,7 @@ public class Main extends Application {
                 TableGenerator.createWordTable();
                // TableGenerator.dropTable("accountTable");
                 TableGenerator.createAccountTable();
+                TableGenerator.createScoreTable();
                // TableGenerator.addCategoryColumn();
                 //SQLCommands.addAccount();
 

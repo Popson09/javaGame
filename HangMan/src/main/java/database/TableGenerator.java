@@ -35,7 +35,13 @@ public class TableGenerator {
         createTable(checkTableExistsSQL,createTableSQL);
 
     }
-    public static void createTable(String existCommand,String createCommand)
+    public static void createScoreTable()
+    {
+        String checkTableExistsSQL = "SELECT name FROM sqlite_master WHERE type='table' AND name='scoreTable';";
+        String createTableSQL = "CREATE TABLE scoreTable ( id INTEGER PRIMARY KEY, nick TEXT  ,score INTEGER DEFAULT 0, frames INTEGER DEFAULT 0,FOREIGN KEY (nick) REFERENCES accountTable(nick) );";
+        createTable(checkTableExistsSQL,createTableSQL);
+    }
+    private static void createTable(String existCommand,String createCommand)
     {
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
              Statement statement = conn.createStatement()) {
@@ -45,10 +51,7 @@ public class TableGenerator {
             if (!resultSet.next()) {
                 statement.execute(createCommand);
                 System.out.println("Tabela została utworzona.");
-            } else {
-                System.out.println("Tabela już istnieje, nie trzeba tworzyć nowej.");
             }
-
         } catch (SQLException e) {
             System.out.println("Wystąpił błąd podczas tworzenia lub sprawdzania tabeli: " + e.getMessage());
         }

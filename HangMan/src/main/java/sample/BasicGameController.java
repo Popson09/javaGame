@@ -43,7 +43,7 @@ public class BasicGameController {
     private char[] word;
     private int lives;
     private int wordLen;
-    private  String category;
+    private  String nick;
     private final SimpleIntegerProperty intScore= new SimpleIntegerProperty();
 
     public void setStage(Stage stage)
@@ -148,6 +148,7 @@ public class BasicGameController {
             message.setFill(Paint.valueOf("#708238"));
             button.setDisable(true);
             createButtons();
+            SQLCommands.setScore(nick,intScore.intValue(),wordLen);
 
         }
 
@@ -187,5 +188,9 @@ public class BasicGameController {
             startGame();
         });
         endBox.getChildren().addAll(backButton,regame);
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 }

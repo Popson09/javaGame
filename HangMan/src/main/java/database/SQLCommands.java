@@ -142,4 +142,20 @@ public class SQLCommands {
             return "";
         }
     }
+    public static void setScore(String nick,int score,int frames)
+    {
+        try(Connection conn=DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
+            PreparedStatement statement= conn.prepareStatement("INSERT INTO scoreTable (nick,score,frames) VALUES ( ?,?,?)"))
+        {
+            statement.setString(1,nick);
+            statement.setInt(2, score);
+            statement.setInt(3,frames);
+            statement.executeUpdate();
+            System.out.println("Dane wstawiono poprawnie");
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Wystąpił błąd podczas wstawiania konta:"  +e);
+        }
+    }
 }
