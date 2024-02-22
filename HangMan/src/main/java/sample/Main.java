@@ -43,8 +43,8 @@ public class Main extends Application {
 
         FXMLLoader dbWindowLoader = new FXMLLoader(getClass().getResource("MainWordDB.fxml"));
         Parent dbWindow = dbWindowLoader.load();
-        MainWordDBController dbWindowController = dbWindowLoader.getController();
-        dbWindowController.setStage(stage);
+        TableViewClass dbWindowController = dbWindowLoader.getController();
+        dbWindowController.setMainStage(stage);
 
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("basicGame.fxml"));
         Parent gameWindow = gameLoader.load();
@@ -63,7 +63,7 @@ public class Main extends Application {
 
         FXMLLoader scoreLoader = new FXMLLoader(getClass().getResource("ScoreWindow.fxml"));
         Parent scoreWindow = scoreLoader.load();
-        ScoreWindowController scoreWindowController = scoreLoader.getController();
+        TableViewClass scoreWindowController = scoreLoader.getController();
         scoreWindowController.setMainStage(stage);
 
         Scene mainScene=new Scene(mainWindow, 800, 600);
@@ -73,7 +73,7 @@ public class Main extends Application {
         mainWindowController.setRegisterScene(new Scene(registerWindow, 800, 600));
         mainWindowController.setLoginScene(new Scene(loginWindow,800,600));
         mainWindowController.setScoreScene(new Scene(scoreWindow,800,600));
-        dbWindowController.setmainScene(mainScene);
+        dbWindowController.setMainScene(mainScene);
         basicGameController.setScene(mainScene);
         registerWindowController.setMainScene(mainScene);
         scoreWindowController.setMainScene(mainScene);

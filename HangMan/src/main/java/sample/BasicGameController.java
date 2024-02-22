@@ -45,7 +45,7 @@ public class BasicGameController {
     private int wordLen;
     private  String nick;
     private final SimpleIntegerProperty intScore= new SimpleIntegerProperty();
-    private ScoreWindowController sw;
+    private TableViewClass sw;
 
     public void setStage(Stage stage)
     {
@@ -195,7 +195,7 @@ public class BasicGameController {
         this.nick = nick;
     }
 
-    public void setSw(ScoreWindowController sw) {
+    public void setSw(TableViewClass sw) {
         this.sw = sw;
     }
 }

@@ -11,37 +11,34 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ScoreWindowController implements Initializable {
-
-    private Stage mainStage;
-    private Scene mainScene;
-    private ObservableList<ObservableList<String>> data= FXCollections.observableArrayList();
+public class ScoreWindowController extends TableViewClass implements Initializable {
     @FXML
     private TableView<ObservableList<String>> tableView;
-    @FXML
-    private HBox hBox;
 
-    public void setMainStage(Stage dbStage) {
-        this.mainStage = dbStage;
-    }
 
-    public void setMainScene(Scene mainScene) {
-        this.mainScene = mainScene;
-    }
-    public void showMainScene()
-    {
-        mainStage.setScene(mainScene);
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        int size=SQLCommands.getTableSize("scoreTable");
+        createView();
+    }
+
+    @Override
+    public void clearData() {
+        SQLCommands.clearTable("scoreTable");
+        data.clear();
+        tableView.getColumns().clear();
+
+    }
+
+    @Override
+    public void createView() {
         data= SQLCommands.getBasicScoreList();
         TableColumn<ObservableList<String>,String> nickColumn= TableGenerator.createColumn("nick",0);
         TableColumn<ObservableList<String>,String> scoreColumn=TableGenerator.createColumn("score",1);
@@ -64,21 +61,8 @@ public class ScoreWindowController implements Initializable {
         tableView.getColumns().add(frameColumn);
 
         tableView.setItems(data);
-
-    }
-    public void clearData()
-    {
-        SQLCommands.clearTable("scoreTable");
-        data.clear();
-        tableView.getColumns().clear();
     }
 
     public void changeView() {
     }
-
-    public void setData( ObservableList<String> row)
-    {
-        this.data.add(row);
-    }
-
 }

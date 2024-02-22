@@ -4,7 +4,6 @@ import database.SQLCommands;
 import database.TableGenerator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,16 +22,25 @@ import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainWordDBController implements Initializable {
-    private Stage dbStage;
-    private Scene mainScene;
-    private ObservableList<ObservableList<String>> data= FXCollections.observableArrayList();
+public class MainWordDBController extends TableViewClass implements Initializable {
     @FXML
     private TableView<ObservableList<String>> tableView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        createView();
+    }
 
+    @Override
+    public void clearData()
+    {
+        SQLCommands.clearTable("wordsTable");
+        data.clear();
+        tableView.getColumns().clear();
+    }
+
+    @Override
+    public void createView() {
         int size=SQLCommands.getTableSize("wordsTable");
         data= SQLCommands.getWordList();
         TableColumn<ObservableList<String>,String> wordColumn= TableGenerator.createColumn("Word",0);
@@ -42,8 +50,7 @@ public class MainWordDBController implements Initializable {
         createDeleteColumn(size);
         tableView.setItems(data);
     }
-
-
+    public int getDataSize() {return data.size();}
     public void addWord() throws IOException {
         showAlert();
         Stage stage=new Stage();
@@ -54,23 +61,6 @@ public class MainWordDBController implements Initializable {
         addWordController.setStage(stage);
         addWordController.setMw(this);
         stage.show();
-    }
-
-    public void setmainScene(Scene scene) {
-        this.mainScene = scene;
-    }
-
-    public void setStage(Stage stage)
-    {
-        this.dbStage=stage;
-    }
-    public void showMainScene() {
-        dbStage.setScene(mainScene);
-    }
-
-    public void setData( ObservableList<String> row)
-    {
-        this.data.add(row);
     }
     private void showAlert()
     {
@@ -85,7 +75,6 @@ public class MainWordDBController implements Initializable {
         }));
         timeline.play();
     }
-
     public void addFromFile()  {
 
 
@@ -104,7 +93,7 @@ public class MainWordDBController implements Initializable {
                 String[] array =line.split(";");
 
 
-                    SQLCommands.insertWord(array[0],array[1] ,this);
+                SQLCommands.insertWord(array[0],array[1] ,this);
 
                 line= reader.readLine();
             }
@@ -117,12 +106,7 @@ public class MainWordDBController implements Initializable {
         }
 
     }
-    public void clearData()
-    {
-        SQLCommands.clearTable("wordsTable");
-        data.clear();
-        tableView.getColumns().clear();
-    }
+
     private void createDeleteColumn(int size)
     {
         TableColumn<ObservableList<String>, Void> deleteColumn = new TableColumn<>("Delete");
@@ -130,10 +114,6 @@ public class MainWordDBController implements Initializable {
         for(int i=0;i<size;i++)
             deleteColumn.setCellFactory(DeleteButtonCell.forTableColumn());
         this.tableView.getColumns().add(deleteColumn);
-    }
-    public int getDataSize()
-    {
-        return data.size();
     }
 
     public TableView<ObservableList<String>> getTableView() {
@@ -143,14 +123,4 @@ public class MainWordDBController implements Initializable {
     public void setTableView(TableView<ObservableList<String>> tableView) {
         this.tableView = tableView;
     }
-
-    /* public void removeData(String id)
-    {
-        this.data.removeIf(elem ->
-        {
-            String idEl = elem.get(1);
-            return id.equals(idEl);
-        });
-
-    }*/
 }

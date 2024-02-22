@@ -8,6 +8,7 @@ import javafx.scene.control.TableView;
 import sample.DeleteButtonCell;
 import sample.MainWordDBController;
 import sample.ScoreWindowController;
+import sample.TableViewClass;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -165,7 +166,7 @@ public class SQLCommands {
             return "";
         }
     }
-    public static void setScore(String nick,int score,int frames,ScoreWindowController sw)
+    public static void setScore(String nick, int score, int frames, TableViewClass sw)
     {
         try(Connection conn=DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
             PreparedStatement statement= conn.prepareStatement("INSERT INTO scoreTable (nick,score,frames) VALUES ( ?,?,?)"))
