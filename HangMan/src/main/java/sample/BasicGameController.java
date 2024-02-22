@@ -45,6 +45,7 @@ public class BasicGameController {
     private int wordLen;
     private  String nick;
     private final SimpleIntegerProperty intScore= new SimpleIntegerProperty();
+    private ScoreWindowController sw;
 
     public void setStage(Stage stage)
     {
@@ -148,7 +149,7 @@ public class BasicGameController {
             message.setFill(Paint.valueOf("#708238"));
             button.setDisable(true);
             createButtons();
-            SQLCommands.setScore(nick,intScore.intValue(),wordLen);
+            SQLCommands.setScore(nick,intScore.intValue(),wordLen,sw);
 
         }
 
@@ -192,5 +193,9 @@ public class BasicGameController {
 
     public void setNick(String nick) {
         this.nick = nick;
+    }
+
+    public void setSw(ScoreWindowController sw) {
+        this.sw = sw;
     }
 }

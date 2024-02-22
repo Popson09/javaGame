@@ -61,18 +61,26 @@ public class Main extends Application {
         LoginWindowController loginWindowController= loginLoader.getController();
         loginWindowController.setMainStage(stage);
 
+        FXMLLoader scoreLoader = new FXMLLoader(getClass().getResource("ScoreWindow.fxml"));
+        Parent scoreWindow = scoreLoader.load();
+        ScoreWindowController scoreWindowController = scoreLoader.getController();
+        scoreWindowController.setMainStage(stage);
+
         Scene mainScene=new Scene(mainWindow, 800, 600);
         //podanie do kontrolera sceny w celu przełączania jej w oknie na podstawie działań użytkownika
         mainWindowController.setDbScene(new Scene(dbWindow, 800, 600)); // wrzucenie do kontenera bd sceny głównego okna
         mainWindowController.setGameScene(new Scene(gameWindow, 800, 600));
         mainWindowController.setRegisterScene(new Scene(registerWindow, 800, 600));
         mainWindowController.setLoginScene(new Scene(loginWindow,800,600));
+        mainWindowController.setScoreScene(new Scene(scoreWindow,800,600));
         dbWindowController.setmainScene(mainScene);
         basicGameController.setScene(mainScene);
         registerWindowController.setMainScene(mainScene);
+        scoreWindowController.setMainScene(mainScene);
         loginWindowController.setMainScene(mainScene);
         loginWindowController.setMw(mainWindowController);
         mainWindowController.setBasicGameController(basicGameController);
+        basicGameController.setSw(scoreWindowController);
 
 
         stage.setTitle("HangMan Game");

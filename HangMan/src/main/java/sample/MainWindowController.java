@@ -21,6 +21,7 @@ public class MainWindowController implements Initializable {
     private Scene registerScene;
 
     private Scene gameScene;
+    private Scene scoreScene;
     private BasicGameController basicGameController;
     @FXML
     private Text helloMessage;
@@ -58,6 +59,10 @@ public class MainWindowController implements Initializable {
         this.loginScene = loginScene;
     }
 
+    public void setScoreScene(Scene scoreScene) {
+        this.scoreScene = scoreScene;
+    }
+
     public void showGameScene()
     {
         mainStage.setScene(gameScene);
@@ -71,6 +76,11 @@ public class MainWindowController implements Initializable {
     {
         mainStage.setScene(dbScene);
     } //wrzucenie sceny do kontenera w celu wyswietlenia
+
+    public void showScoreScene()
+    {
+        mainStage.setScene(scoreScene);
+    }
 
     public void logIn() {
 

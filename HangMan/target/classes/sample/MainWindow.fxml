@@ -35,11 +35,11 @@
           <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-             <Button maxWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0"
+             <Button  fx:id="buttonGame" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0"
                      text="Zagraj w grę"  onAction="#showGameScene" styleClass="mainMenuButton"/>
              <Button mnemonicParsing="false" text="Baza Wyrazów" GridPane.rowIndex="1" onAction="#showDBScene"
                      styleClass="mainMenuButton"/>
-             <Button mnemonicParsing="false" text="Tabela Wyników" GridPane.rowIndex="2" styleClass="mainMenuButton"/>
+             <Button mnemonicParsing="false" onAction="#showScoreScene" text="Tabela Wyników" GridPane.rowIndex="2" styleClass="mainMenuButton"/>
          </children>
       </GridPane>
       <ImageView fitHeight="300.0" fitWidth="200.0" layoutX="15.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">

@@ -1,6 +1,7 @@
 package sample;
 
 import database.SQLCommands;
+import database.TableGenerator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleStringProperty;
@@ -34,27 +35,14 @@ public class MainWordDBController implements Initializable {
 
         int size=SQLCommands.getTableSize("wordsTable");
         data= SQLCommands.getWordList();
-        TableColumn<ObservableList<String>,String> wordColumn=createColumn("Word",0);
-        TableColumn<ObservableList<String>,String> categoryColumn=createColumn("Category",1);
+        TableColumn<ObservableList<String>,String> wordColumn= TableGenerator.createColumn("Word",0);
+        TableColumn<ObservableList<String>,String> categoryColumn=TableGenerator.createColumn("Category",1);
         tableView.getColumns().add(wordColumn);
         tableView.getColumns().add(categoryColumn);
         createDeleteColumn(size);
         tableView.setItems(data);
     }
-   private TableColumn<ObservableList<String>,String> createColumn(String name,int i)
-   {
-       TableColumn<ObservableList<String>,String> column= new TableColumn<>(name);
-       //ustawienie sortowania alfabetycznego kolumny wyrazów
-       column.setSortType(TableColumn.SortType.DESCENDING);
-       column.setPrefWidth(290);
-       //ustawienie wyswietlanego typu dla komórki tabeli
-       column.setCellValueFactory(cellData -> {
-           String value = cellData.getValue().get(i);
-           return new SimpleStringProperty(value);
-       });
-       column.getStyleClass().add("defaultText");
-       return column;
-   }
+
 
     public void addWord() throws IOException {
         showAlert();

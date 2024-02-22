@@ -7,6 +7,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import sample.DeleteButtonCell;
 import sample.MainWordDBController;
+import sample.ScoreWindowController;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,6 +27,28 @@ public class SQLCommands {
                 ObservableList<String> row= FXCollections.observableArrayList();
                 row.add(resultSet.getString("word"));
                 row.add(resultSet.getString("category"));
+                list.add(row);
+            }
+
+        }
+        catch (SQLException e) {
+            System.out.println("Wystąpił błąd podczas pobierania listy: " + e.getMessage());
+        }
+        return list;
+    }
+    public static ObservableList<ObservableList<String>> getBasicScoreList()
+    {
+        ObservableList<ObservableList<String>> list= FXCollections.observableArrayList();
+        String command = "SELECT nick,score, frames FROM scoreTable";
+        try(Connection conn = DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
+            Statement statement= conn.createStatement()) {
+            ResultSet resultSet=statement.executeQuery(command);
+            while (resultSet.next())
+            {
+                ObservableList<String> row= FXCollections.observableArrayList();
+                row.add(resultSet.getString("nick"));
+                row.add(resultSet.getString("score"));
+                row.add(resultSet.getString("frames"));
                 list.add(row);
             }
 
@@ -107,7 +130,7 @@ public class SQLCommands {
             System.out.println("Wystąpił błąd podczas czyszczenia tabeli "+name+" : "+e);
         }
     }
-    public static void addAccount(String nick,String password)
+    public static void addAccount(String nick, String password)
     {
         try(Connection conn=DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
             PreparedStatement statement= conn.prepareStatement("INSERT INTO accountTable (nick,password) VALUES ( ?,?)"))
@@ -142,7 +165,7 @@ public class SQLCommands {
             return "";
         }
     }
-    public static void setScore(String nick,int score,int frames)
+    public static void setScore(String nick,int score,int frames,ScoreWindowController sw)
     {
         try(Connection conn=DriverManager.getConnection("jdbc:sqlite:HangMan/src/main/resources/myDatabase.db");
             PreparedStatement statement= conn.prepareStatement("INSERT INTO scoreTable (nick,score,frames) VALUES ( ?,?,?)"))
@@ -151,6 +174,11 @@ public class SQLCommands {
             statement.setInt(2, score);
             statement.setInt(3,frames);
             statement.executeUpdate();
+            ObservableList<String> row=FXCollections.observableArrayList();
+            row.add(nick);
+            row.add(Integer.toString(score));
+            row.add(Integer.toString(frames));
+            sw.setData(row);
             System.out.println("Dane wstawiono poprawnie");
         }
         catch (SQLException e)

@@ -1,5 +1,9 @@
 package database;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
+
 import java.sql.*;
 
 public class TableGenerator {
@@ -67,5 +71,19 @@ public class TableGenerator {
         {
             System.out.println("Wystąpił błąd podczas usuwania tabeli "+name+" : "+e);
         }
+    }
+    public static TableColumn<ObservableList<String>,String> createColumn(String name, int i)
+    {
+        TableColumn<ObservableList<String>,String> column= new TableColumn<>(name);
+        //ustawienie sortowania alfabetycznego kolumny wyrazów
+        column.setSortType(TableColumn.SortType.DESCENDING);
+        column.setPrefWidth(290);
+        //ustawienie wyswietlanego typu dla komórki tabeli
+        column.setCellValueFactory(cellData -> {
+            String value = cellData.getValue().get(i);
+            return new SimpleStringProperty(value);
+        });
+        column.getStyleClass().add("defaultText");
+        return column;
     }
 }
