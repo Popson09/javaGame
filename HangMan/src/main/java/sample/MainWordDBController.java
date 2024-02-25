@@ -36,7 +36,7 @@ public class MainWordDBController extends TableViewClass implements Initializabl
     {
         SQLCommands.clearTable("wordsTable");
         data.clear();
-        tableView.getColumns().clear();
+        //tableView.getColumns().clear();
     }
 
     @Override
@@ -92,8 +92,8 @@ public class MainWordDBController extends TableViewClass implements Initializabl
                 //podzizał po znakach białych oraz przecinkach
                 String[] array =line.split(";");
 
-
-                SQLCommands.insertWord(array[0],array[1] ,this);
+                if(array.length>=2)
+                    SQLCommands.insertWord(array[0],array[1] ,this);
 
                 line= reader.readLine();
             }

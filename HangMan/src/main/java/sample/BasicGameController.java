@@ -17,43 +17,48 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-public class BasicGameController {
+public class BasicGameController  {
     @FXML
-    private Button button;
+    private Button button; //przycisk sprawdzający literę
     @FXML
-    private Text message;
+    private Text message; //informacja końca gry
     @FXML
-    private Text score;
+    private Text score; //bierzący wynik poziomu
     @FXML
-    private HBox box;
+    private Text gameLen; //informacja o długości gry
     @FXML
-    private HBox liveBox;
+    private HBox box; //box z literami wyrazu
     @FXML
-    private HBox endBox;
+    private HBox liveBox; //box z życio-kotami
     @FXML
-    private TextField letterToCheck;
+    private HBox endBox; //box w którym pojawiają się przyciski po końcu gry
     @FXML
-    private Text used;
+    private TextField letterToCheck; //pole do wprowadzenia litery
     @FXML
-    private Text categoryText;
+    private Text used; // pole do wyświetlenia zużytych liter
+    @FXML
+    private Text categoryText; //pole do wyświetlenia kategorii wyrazu
+    private ObservableList<ObservableList<String>> list; //lista, do której pobierana jest zawartość bazy wyrazów
 
-    private Stage mainStage;
-    private Scene mainScene;
-    private final List<Boolean> isKnown=new ArrayList<>();
-    private char[] word;
-    private int lives;
-    private int wordLen;
-    private  String nick;
-    private final SimpleIntegerProperty intScore= new SimpleIntegerProperty();
-    private TableViewClass sw;
+    private Stage mainStage; //główne okno aplikacji
+    private Scene mainScene; //scena menu głównego
+    private final List<Boolean> isKnown=new ArrayList<>(); //lista sprawdzająca, które litery zostały zgadnięte
+    private char[] word;//wyraz do zgadnięcia w postaci listy char
+    private int lives; //liczba żyć
 
-    public void setStage(Stage stage)
+    private int frames; //liczba liter na całym poziomie (do bazy danych)
+    private final SimpleIntegerProperty wordCount= new SimpleIntegerProperty(); //informacja o postępie poziomu
+    private  String nick; //pseudonim gracza
+    private final SimpleIntegerProperty intScore= new SimpleIntegerProperty(); //informacja o wyniku
+    private TableViewClass sw; //klasa kontrolera potrzebna dla aktualizacji table view dla bazy wyników
+    private int combo; //mnożnik combo dla wyniku
+
+
+
+    private void clearData() //czyszczenie okna gry, ustawienie wszystkich pól na default
     {
-        this.mainStage=stage;
-    }
-    private int combo;
-    private void clearData()
-    {
+        frames=0;
+        wordCount.set(1);
         endBox.getChildren().clear();
         liveBox.getChildren().clear();
         box.getChildren().clear();
@@ -64,54 +69,68 @@ public class BasicGameController {
         combo=1;
         intScore.set(0);
         score.textProperty().bind(Bindings.concat("Wynik Poziomu: ").concat(intScore.asString()));
+        gameLen.textProperty().bind(Bindings.concat("Postęp poziomu: wyraz ").concat(wordCount.asString()).concat("/5"));
         lives=9;
         isKnown.clear();
+    }
+    private void continueGame() //wyczyszczenie tylko niektórych pól zostawiając informacje o wyniku i długości rpzgrywki
+    {
+        intScore.set(intScore.get()+lives*20);
+        lives=9;
+        isKnown.clear();endBox.getChildren().clear();
+        liveBox.getChildren().clear();
+        box.getChildren().clear();
+        used.setText("");
+        message.setText("");
+        categoryText.setText("");
+        wordCount.set(wordCount.get()+1);
+        createView();
+
     }
 
     public void startGame()
     {
-        clearData();
+        clearData(); //wyczyszczenie planszy
         int size=SQLCommands.getTableSize("wordsTable");
         if(size!=0)
         {
-            ObservableList<ObservableList<String>> list= SQLCommands.getWordList();
-            Random random=new Random();
-            int number=random.nextInt(list.size());
-            String s=list.get(number).get(0).toLowerCase();
-            categoryText.setText("Kategoria: "+list.get(number).get(1));
-            word=s.toCharArray();
-            wordLen = s.length();
+            list= SQLCommands.getWordList();//pobranie wyrazów
+            createView();//rozpoczęcie gry
 
-            Image image =  new Image("file:HangMan/src/main/resources/images/blankField.png");
-            for(int i = 0; i< wordLen; i++)
-            {
-                isKnown.add(false);
-                ImageView imageView=new ImageView();
-                imageView.setFitHeight(100);
-                imageView.setFitWidth(75);
-                imageView.setImage(image);
-
-                box.getChildren().add(imageView);
-            }
-            Image catImage =  new Image("file:HangMan/src/main/resources/images/cat_hp.png");
-            for(int i = 0; i< 9; i++)
-            {
-                ImageView imageView=new ImageView();
-                imageView.setFitHeight(100);
-                imageView.setFitWidth(85);
-                imageView.setImage(catImage);
-                liveBox.getChildren().add(imageView);
-            }
         }
 
     }
-    public void setScene(Scene scene) {
-        this.mainScene = scene;
-    }
-    public void showMainScene()
+    private void createView()
     {
-        mainStage.setScene(mainScene);
+        Random random=new Random();
+        int number=random.nextInt(list.size());
+        String s=list.get(number).get(0).toLowerCase(); //wylosowanie wyrazu
+        categoryText.setText("Kategoria: "+list.get(number).get(1));
+        word=s.toCharArray();
+        frames+=s.length();
+
+        Image image =  new Image("file:HangMan/src/main/resources/images/blankField.png");
+        for(int i = 0; i< word.length; i++)//stworzenie kafelków z literami
+        {
+            isKnown.add(false);
+            ImageView imageView=new ImageView();
+            imageView.setFitHeight(100);
+            imageView.setFitWidth(75);
+            imageView.setImage(image);
+
+            box.getChildren().add(imageView);
+        }
+        Image catImage =  new Image("file:HangMan/src/main/resources/images/cat_hp.png");
+        for(int i = 0; i< 9; i++) //narysowanie żyć
+        {
+            ImageView imageView=new ImageView();
+            imageView.setFitHeight(100);
+            imageView.setFitWidth(85);
+            imageView.setImage(catImage);
+            liveBox.getChildren().add(imageView);
+        }
     }
+
 
     public void check() {
 
@@ -125,7 +144,7 @@ public class BasicGameController {
         letterToCheck.clear();
         boolean find=false;
 
-        for(int i=0;i<wordLen;i++)
+        for(int i=0;i< word.length;i++)
         {
 
             if(!isKnown.get(i))
@@ -145,11 +164,19 @@ public class BasicGameController {
         }
         if(!isKnown.contains(false))
         {
-            message.setText("WYGRAŁES");
-            message.setFill(Paint.valueOf("#708238"));
-            button.setDisable(true);
-            createButtons();
-            SQLCommands.setScore(nick,intScore.intValue(),wordLen,sw);
+            if(wordCount.get()<5)
+            {
+                continueGame();
+            }
+            else
+            {
+                message.setText("WYGRAŁES");
+                message.setFill(Paint.valueOf("#708238"));
+                button.setDisable(true);
+                createButtons();
+                SQLCommands.setScore(nick,intScore.intValue(),frames,sw);
+            }
+
 
         }
 
@@ -167,12 +194,11 @@ public class BasicGameController {
                 message.setFill(Paint.valueOf("#CD5C5C"));
                 button.setDisable(true);
                 createButtons();
+                SQLCommands.setScore(nick,intScore.intValue(),word.length,sw);
             }
-
         }
         else
             combo++;
-
     }
     private void createButtons()
     {
@@ -189,6 +215,20 @@ public class BasicGameController {
             startGame();
         });
         endBox.getChildren().addAll(backButton,regame);
+    }
+
+    //getery i setery
+    public void setStage(Stage stage)
+    {
+        this.mainStage=stage;
+    }
+
+    public void setScene(Scene scene) {
+        this.mainScene = scene;
+    }
+    public void showMainScene()
+    {
+        mainStage.setScene(mainScene);
     }
 
     public void setNick(String nick) {
