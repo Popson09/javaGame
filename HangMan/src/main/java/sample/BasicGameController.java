@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-public class BasicGameController  {
+public class BasicGameController extends GameClass {
     @FXML
     private Button button; //przycisk sprawdzający literę
     @FXML
@@ -38,24 +38,13 @@ public class BasicGameController  {
     private Text used; // pole do wyświetlenia zużytych liter
     @FXML
     private Text categoryText; //pole do wyświetlenia kategorii wyrazu
-    private ObservableList<ObservableList<String>> list; //lista, do której pobierana jest zawartość bazy wyrazów
 
-    private Stage mainStage; //główne okno aplikacji
-    private Scene mainScene; //scena menu głównego
-    private final List<Boolean> isKnown=new ArrayList<>(); //lista sprawdzająca, które litery zostały zgadnięte
-    private char[] word;//wyraz do zgadnięcia w postaci listy char
     private int lives; //liczba żyć
 
-    private int frames; //liczba liter na całym poziomie (do bazy danych)
-    private final SimpleIntegerProperty wordCount= new SimpleIntegerProperty(); //informacja o postępie poziomu
-    private  String nick; //pseudonim gracza
-    private final SimpleIntegerProperty intScore= new SimpleIntegerProperty(); //informacja o wyniku
-    private TableViewClass sw; //klasa kontrolera potrzebna dla aktualizacji table view dla bazy wyników
-    private int combo; //mnożnik combo dla wyniku
 
 
-
-    private void clearData() //czyszczenie okna gry, ustawienie wszystkich pól na default
+    @Override
+    public void clearData() //czyszczenie okna gry, ustawienie wszystkich pól na default
     {
         frames=0;
         wordCount.set(1);
@@ -73,7 +62,8 @@ public class BasicGameController  {
         lives=9;
         isKnown.clear();
     }
-    private void continueGame() //wyczyszczenie tylko niektórych pól zostawiając informacje o wyniku i długości rpzgrywki
+    @Override
+    public void continueGame() //wyczyszczenie tylko niektórych pól zostawiając informacje o wyniku i długości rpzgrywki
     {
         intScore.set(intScore.get()+lives*20);
         lives=9;
@@ -88,19 +78,8 @@ public class BasicGameController  {
 
     }
 
-    public void startGame()
-    {
-        clearData(); //wyczyszczenie planszy
-        int size=SQLCommands.getTableSize("wordsTable");
-        if(size!=0)
-        {
-            list= SQLCommands.getWordList();//pobranie wyrazów
-            createView();//rozpoczęcie gry
-
-        }
-
-    }
-    private void createView()
+    @Override
+    public void createView()
     {
         Random random=new Random();
         int number=random.nextInt(list.size());
@@ -132,6 +111,7 @@ public class BasicGameController  {
     }
 
 
+    @Override
     public void check() {
 
         if(letterToCheck.getText().isEmpty())
@@ -190,6 +170,14 @@ public class BasicGameController  {
             used.setText(used.getText()+letter+' ');
             if(lives==0)
             {
+                for(int i=0;i< word.length;i++) {
+                    imageView= (ImageView) box.getChildren().get(i);
+                    imageView.setImage(new Image("file:HangMan/src/main/resources/images/litery/"+word[i]+".jpg"));
+                    box.getChildren().set(i,imageView);
+
+                }
+
+
                 message.setText("PRZEGRAŁES");
                 message.setFill(Paint.valueOf("#CD5C5C"));
                 button.setDisable(true);
@@ -200,7 +188,8 @@ public class BasicGameController  {
         else
             combo++;
     }
-    private void createButtons()
+    @Override
+    public void createButtons()
     {
         Button backButton=new Button("Powrót");
         backButton.getStyleClass().add("backButton");
@@ -217,25 +206,5 @@ public class BasicGameController  {
         endBox.getChildren().addAll(backButton,regame);
     }
 
-    //getery i setery
-    public void setStage(Stage stage)
-    {
-        this.mainStage=stage;
-    }
 
-    public void setScene(Scene scene) {
-        this.mainScene = scene;
-    }
-    public void showMainScene()
-    {
-        mainStage.setScene(mainScene);
-    }
-
-    public void setNick(String nick) {
-        this.nick = nick;
-    }
-
-    public void setSw(TableViewClass sw) {
-        this.sw = sw;
-    }
 }
