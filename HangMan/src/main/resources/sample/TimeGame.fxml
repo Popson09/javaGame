@@ -4,11 +4,17 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.shape.Box?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.TimeGameController">
     <children>
         <HBox fx:id="box" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="780.0" />
-        <Text fx:id="timer" layoutX="250.0" layoutY="490.0"  wrappingWidth="300.0" />
+
         <HBox fx:id="endBox" layoutX="460.0" layoutY="200.0" prefHeight="50.0" prefWidth="300.0"  />
+        <HBox  layoutX="250.0" layoutY="500.0"  prefHeight="75.0" prefWidth="300.0" styleClass="timerBorder" >
+            <children>
+                <Text fx:id="timer"  wrappingWidth="300.0" text="Hello World" styleClass="timerText"/>
+            </children>
+        </HBox>
 
 
         <Text fx:id="categoryText" layoutX="10.0" layoutY="200.0" styleClass="defaultText" textAlignment="CENTER" wrappingWidth="300.0"/>

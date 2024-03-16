@@ -33,13 +33,17 @@
           <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-             <Button  fx:id="buttonGame" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0"
-                     text="Zagraj w grę"  onAction="#showGameScene" styleClass="mainMenuButton"/>
-             <Button mnemonicParsing="false" text="Baza Wyrazów" GridPane.rowIndex="1" onAction="#showDBScene"
+             <Button  fx:id="basicGame" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0"
+                     text="Tryb klasyczny"  onAction="#showBasicScene" styleClass="mainMenuButton"/>
+             <Button  fx:id="timeGame" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0"
+                      text="Tryb czasowy"  onAction="#showTimeScene" styleClass="mainMenuButton" GridPane.rowIndex="1"/>
+
+             <Button mnemonicParsing="false" text="Baza Wyrazów" GridPane.rowIndex="2" onAction="#showDBScene"
                      styleClass="mainMenuButton"/>
-             <Button mnemonicParsing="false" onAction="#showScoreScene" text="Tabela Wyników" GridPane.rowIndex="2" styleClass="mainMenuButton"/>
+             <Button mnemonicParsing="false" onAction="#showScoreScene" text="Tabela Wyników" GridPane.rowIndex="3" styleClass="mainMenuButton"/>
          </children>
       </GridPane>
       <ImageView fitHeight="300.0" fitWidth="200.0" layoutX="15.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">

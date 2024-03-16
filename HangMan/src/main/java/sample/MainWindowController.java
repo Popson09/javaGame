@@ -13,16 +13,20 @@ import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
     @FXML
-    private Button buttonGame;
+    private Button basicGame;
+    @FXML
+    private Button timeGame;
 
     private Stage mainStage; //kontener reprezentujący okno aplikacji
     private Scene dbScene; //scena wyswietlana w konterze
     private Scene loginScene;
     private Scene registerScene;
 
-    private Scene gameScene;
+    private Scene basicGameScene;
+    private Scene timeGameScene;
     private Scene scoreScene;
     private BasicGameController basicGameController;
+    private TimeGameController timeGameController;
     @FXML
     private Text helloMessage;
     private SimpleStringProperty nick=new SimpleStringProperty();
@@ -38,17 +42,27 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        buttonGame.setDisable(true);
+        basicGame.setDisable(true);
+        timeGame.setDisable(true);
         this.nick.set(" ");
         helloMessage.textProperty().bind(Bindings.concat("Zalogowany jako: ").concat(nick));
 
     }
+
+    public void setTimeGameScene(Scene timeGameScene) {
+        this.timeGameScene = timeGameScene;
+    }
+
+    public void setTimeGameController(TimeGameController timeGameController) {
+        this.timeGameController = timeGameController;
+    }
+
     public void setDbScene(Scene scene) {
         this.dbScene = scene;
     }
 
-    public void setGameScene(Scene gameScene) {
-        this.gameScene = gameScene;
+    public void setBasicGameScene(Scene gameScene) {
+        this.basicGameScene = gameScene;
     }
 
     public void setRegisterScene(Scene registerScene) {
@@ -63,16 +77,23 @@ public class MainWindowController implements Initializable {
         this.scoreScene = scoreScene;
     }
 
-    public void showGameScene()
+    public void showBasicScene()
     {
-        mainStage.setScene(gameScene);
+        mainStage.setScene(basicGameScene);
         basicGameController.setNick(nick.get());
         basicGameController.startGame();
 
     }
+    public void showTimeScene() {
+        mainStage.setScene(timeGameScene);
+        timeGameController.setNick(nick.get());
+        timeGameController.startGame();
+    }
 
 
-    public void showDBScene()
+
+
+        public void showDBScene()
     {
         mainStage.setScene(dbScene);
     } //wrzucenie sceny do kontenera w celu wyswietlenia
@@ -86,7 +107,11 @@ public class MainWindowController implements Initializable {
 
         mainStage.setScene(loginScene);
         if (!nick.get().isEmpty())
-            buttonGame.setDisable(false);
+        {
+            basicGame.setDisable(false);
+            timeGame.setDisable(false);
+        }
+
     }
 
     public void register() {
